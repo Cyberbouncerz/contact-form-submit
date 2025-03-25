@@ -6,10 +6,10 @@ document.getElementById('contact-form').addEventListener('submit', async functio
     let jsonData = {};
     formData.forEach((value, key) => jsonData[key] = value);
 
-    let response = await fetch('https://api.github.com/repos/YOUR_GITHUB_USERNAME/contact-form-submit/dispatches', {
+    let response = await fetch('https://api.github.com/repos/cyberbouncerz/contact-form-submit/dispatches', {
         method: 'POST',
         headers: {
-            'Authorization': 'Bearer YOUR_GITHUB_PAT',  // Replace with your actual GitHub token
+            'Authorization': 'Bearer YOUR_GITHUB_PAT',  // Replace with your stored GitHub Token
             'Accept': 'application/vnd.github.v3+json',
             'Content-Type': 'application/json'
         },
