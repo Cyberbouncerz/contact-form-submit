@@ -1,0 +1,23 @@
+name: Contact Form Proxy
+on:
+  repository_dispatch:
+    types: [contact-form-submission]
+
+jobs:
+  forward-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Forward Contact Data to Main Repository
+        run: |
+          curl -X POST -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
+               -H "Accept: application/vnd.github.v3+json" \
+               -H "Content-Type: application/json" \
+               --data '{
+                 "event_type": "contact-form-submission",
+                 "client_payload": {
+                   "name": "${{ github.event.client_payload.name }}",
+                   "email": "${{ github.event.client_payload.email }}",
+                   "message": "${{ github.event.client_payload.message }}"
+                 }
+               }' \
+               https://api.github.com/repos/YOUR_GITHUB_USERNAME/YOUR_MAIN_REPOSITORY/dispatches
