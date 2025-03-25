@@ -1,12 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Form Proxy</title>
-</head>
-<body>
-    <h1>Contact Form API Proxy</h1>
-    <p>This is a GitHub API Proxy for handling contact form submissions.</p>
-</body>
-</html>
+<script>
+document.getElementById('contact-form').addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+    let formData = new FormData(this);
+    let jsonData = {};
+    formData.forEach((value, key) => jsonData[key] = value);
+
+    let response = await fetch('https://api.github.com/repos/YOUR_GITHUB_USERNAME/contact-form-submit/dispatches', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer YOUR_GITHUB_PAT',  // Replace with your actual GitHub token
+            'Accept': 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            event_type: "contact-form-submission",
+            client_payload: jsonData
+        })
+    });
+
+    if (response.ok) {
+        document.getElementById('response').innerText = "Message sent! You'll receive a confirmation email.";
+    } else {
+        let errorText = await response.text();
+        document.getElementById('response').innerText = "Error sending message: " + errorText;
+    }
+});
+</script>
