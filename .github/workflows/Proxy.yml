@@ -7,7 +7,7 @@ jobs:
   forward-data:
     runs-on: ubuntu-latest
     steps:
-      - name: Forward Contact Data to Main Repository
+      - name: Trigger Main Repository Workflow
         run: |
           curl -X POST -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
                -H "Accept: application/vnd.github.v3+json" \
